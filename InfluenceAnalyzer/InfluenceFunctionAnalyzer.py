@@ -9,7 +9,7 @@ import pandas as pd
 
 
 class InfluenceFunctionAnalyzer:
-    def __init__(self, model, loss_fn, params, r, p_tilde, device='cpu'):
+    def __init__(self, model, loss_fn, params, r, p_tilde, damping, device='cpu'):
         """
         Args:
             model: A PyTorch model.
@@ -17,6 +17,7 @@ class InfluenceFunctionAnalyzer:
             params: Iterable of model parameters.
             r: Number of Arnoldi iterations (size of Krylov subspace).
             p_tilde: Number of dominant eigen-directions to retain.
+            damping: Damping parameter for the Hessian-vector product.
             device: Torch device.
         """
         self.model = model
@@ -27,6 +28,7 @@ class InfluenceFunctionAnalyzer:
         self.device = device
         self.G = None
         self.eigenvalues_top = None
+        self.damping = damping
 
     def hvp(self, loss, v):
         return hessian_vector_product(loss, self.model, self.params, v)

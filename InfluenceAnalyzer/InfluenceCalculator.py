@@ -1,6 +1,6 @@
 import torch
 
-def compute_influence(G, eigenvalues_top, grad_x, grad_z):
+def compute_influence(G, eigenvalues_top, grad_x, grad_z, damping=1e-4):
     """
     Args:
         G: Projection matrix of shape (p_tilde, p).
@@ -15,8 +15,6 @@ def compute_influence(G, eigenvalues_top, grad_x, grad_z):
     proj_grad_x = torch.matmul(G, grad_x)  # shape: (p_tilde,)
     proj_grad_z = torch.matmul(G, grad_z)  # shape: (p_tilde,)
 
-
-    damping = 1e-4  # or another small constant
     # Invert the eigenvalues (element-wise)
     inv_eigs = 1.0 / (eigenvalues_top + damping)
     # Compute the influence as the dot product with scaling by the inverse eigenvalues

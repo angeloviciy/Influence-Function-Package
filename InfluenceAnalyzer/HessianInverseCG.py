@@ -33,7 +33,7 @@ def hvp_cg_solver(hvp_fn, b, cg_iters=50, residual_tol=1e-7):
     return x
 
 
-def compute_influence_cg(loss, model, params, grad_x, grad_z, cg_iters=100, tol=1e-6):
+def compute_influence_cg(loss, model, params, grad_x, grad_z, cg_iters=100, tol=1e-6, damping=1e-3):
     """
     Compute the influence of a training example x on a test example z using CG to approximate H^{-1}.
 
@@ -52,7 +52,6 @@ def compute_influence_cg(loss, model, params, grad_x, grad_z, cg_iters=100, tol=
         influence: scalar influence score.
     """
     # Define Hessian-vector product function for the full loss
-    damping = 1e-3
     def hvp_fn(v):
         return hessian_vector_product(loss, model, params, v) + damping * v
 

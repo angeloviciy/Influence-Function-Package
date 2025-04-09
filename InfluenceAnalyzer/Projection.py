@@ -24,7 +24,7 @@ def compute_projection(basis_mat, H_reduced, p_tilde):
 
 
     # Use eigen-decomposition; for a symmetric (or Hermitian) matrix, use eigh.
-    eigenvalues, eigenvectors = torch.linalg.eigh(H_reduced)
+    eigenvalues, eigenvectors = torch.linalg.eigh(H_sq)
     
     # Sort eigenvalues in descending order of absolute value
     abs_eig = torch.abs(eigenvalues)
